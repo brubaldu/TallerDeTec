@@ -1,4 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Dominio;
+
+List<Producto> listaProductos = new List<Producto>();
+
 while (true)
 {
     string opcion;
@@ -9,7 +12,7 @@ while (true)
     switch (opcion)
     {
         case "1":
-
+            RegistrarProducto();
             break;
 
         case "2":
@@ -18,5 +21,32 @@ while (true)
 
         default:
             break;
+    }
+}
+
+void RegistrarProducto()
+{
+    var nuevoProducto = new Producto();
+
+    Console.Write("Nombre: ");
+    nuevoProducto.Nombre = Console.ReadLine();
+    Console.Write("Descripcion: ");
+    nuevoProducto.Descripcion = Console.ReadLine();
+    Console.Write("Precio: ");
+    Double.TryParse(Console.ReadLine(), out double precio);
+    Console.Write("Stock: ");
+    Int32.TryParse(Console.ReadLine(), out int stock);
+
+    nuevoProducto.Precio = precio;
+    nuevoProducto.Stock = stock;
+
+    if (listaProductos.Any(producto => producto.Nombre == nuevoProducto.Nombre))
+    {
+        Console.WriteLine("Error: el producto ya esta registrado.");
+    }
+    else
+    {
+        listaProductos.Add(nuevoProducto);
+        Console.WriteLine("Producto registrado correctamente.");
     }
 }
