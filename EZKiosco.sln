@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{160B78EF-5DE5-410A-9E32-BF8C111A9B43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{CD22DBD8-552A-450C-9566-16DD3EDD54DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{160B78EF-5DE5-410A-9E32-BF8C111A9B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{160B78EF-5DE5-410A-9E32-BF8C111A9B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{160B78EF-5DE5-410A-9E32-BF8C111A9B43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD22DBD8-552A-450C-9566-16DD3EDD54DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD22DBD8-552A-450C-9566-16DD3EDD54DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD22DBD8-552A-450C-9566-16DD3EDD54DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD22DBD8-552A-450C-9566-16DD3EDD54DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
