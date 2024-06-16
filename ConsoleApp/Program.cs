@@ -16,6 +16,7 @@ while (true)
             break;
 
         case "2":
+            ComprarProducto()
 
             break;
 
@@ -48,5 +49,35 @@ void RegistrarProducto()
     {
         listaProductos.Add(nuevoProducto);
         Console.WriteLine("Producto registrado correctamente.");
+    }
+}
+
+void ComprarProducto()
+{
+   /* if (!usuarioLogueado) falta autentificacion
+    {
+        Console.WriteLine("Debe iniciar sesión para comprar productos.");
+        return;
+    }
+    */
+    Console.Write("Nombre del producto: ");
+    string nombreProducto = Console.ReadLine();
+    Console.Write("Cantidad a comprar: ");
+    Int32.TryParse(Console.ReadLine(), out int cantidad);
+
+    var producto = listaProductos.FirstOrDefault(p => p.Nombre == nombreProducto);
+
+    if (producto == null)
+    {
+        Console.WriteLine("Error: el producto no existe.");
+    }
+    else if (producto.Stock < cantidad)
+    {
+        Console.WriteLine("Error: no hay suficiente stock.");
+    }
+    else
+    {
+        producto.Stock -= cantidad;
+        Console.WriteLine("Compra realizada con éxito.");
     }
 }
