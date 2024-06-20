@@ -22,6 +22,7 @@ while (opcion != "0" && !usuarioAutenticado)
             break;
 
         case "2":
+            Login();
             break;
 
         case "0":
@@ -52,8 +53,7 @@ while (opcion != "0")
             RegistrarProducto();
             break;
 
-        case "2":
-            ComprarProducto();
+        case "2":ComprarProducto();
             break;
 
         case "0":
@@ -97,6 +97,31 @@ void RegistrarUsuario()
             Console.WriteLine("¡Usuario registrado exitosamente!");
             Console.WriteLine();
         }
+    }
+}
+
+void Login()
+{
+    Dictionary<string, string> credenciales = CargarUsuarios();
+
+    Console.Write("Usuario: ");
+    string usuario = Console.ReadLine();
+
+    Console.Write("Contraseña: ");
+    string contrasenia = Console.ReadLine();
+
+    if (credenciales.TryGetValue(usuario, out var contraseniaGuardada) && contraseniaGuardada == contrasenia)
+    {
+        usuarioAutenticado = true;
+
+        Console.Clear();
+        Console.WriteLine($"¡Bienvenido {usuario}!");
+        Console.WriteLine();
+    }
+    else
+    {
+        Console.WriteLine("Error: credenciales incorrectas");
+        Console.WriteLine();
     }
 }
 
