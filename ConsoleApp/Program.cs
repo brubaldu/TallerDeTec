@@ -7,6 +7,11 @@ int proximoIdProductos = 1;
 string opcion = "";
 bool usuarioAutenticado = false;
 
+if (!ChequearArchivoUsuarios())
+{
+    Console.WriteLine("No existe el archivo de Usuarios (usuarios.txt). La aplicación se cerrará.");
+    Environment.Exit(0);
+}
 CargarProductos();
 
 while (opcion != "0" && !usuarioAutenticado)
@@ -147,8 +152,15 @@ static Dictionary<string, string> CargarUsuarios()
     return credenciales;
 }
 
+bool ChequearArchivoUsuarios()
+{
+    return File.Exists(usuariosPath);
+}
+
 void CargarProductos()
 {
+    if (!File.Exists(productosInicialesPath))
+        return;
     foreach (var linea in File.ReadAllLines(productosInicialesPath))
     {
         try
