@@ -38,6 +38,7 @@ while (opcion != "0" && !usuarioAutenticado)
 
 while (opcion != "0")
 {
+    Console.WriteLine();
     Console.WriteLine(" -----------Menú----------");
     Console.WriteLine("|  1- Registrar producto  |");
     Console.WriteLine("|  2- Comprar producto    |");
@@ -53,7 +54,8 @@ while (opcion != "0")
             RegistrarProducto();
             break;
 
-        case "2":ComprarProducto();
+        case "2":
+            ComprarProducto();
             break;
 
         case "0":
@@ -113,10 +115,8 @@ void Login()
     if (credenciales.TryGetValue(usuario, out var contraseniaGuardada) && contraseniaGuardada == contrasenia)
     {
         usuarioAutenticado = true;
-
         Console.Clear();
         Console.WriteLine($"¡Bienvenido {usuario}!");
-        Console.WriteLine();
     }
     else
     {
@@ -172,30 +172,45 @@ void RegistrarProducto()
 
 void ComprarProducto()
 {
-    /* if (!usuarioLogueado) falta autentificacion
-     {
-         Console.WriteLine("Debe iniciar sesión para comprar productos.");
-         return;
-     }
-     */
+    if (listaProductos.Count() == 0)
+    {
+        Console.WriteLine("Error: No hay productos registrados");
+        Console.WriteLine();
+        return;
+    }
+
+    Console.WriteLine("---- Productos ----");
+    Console.WriteLine($"{"Nombre".PadRight(25)} {"Precio".PadRight(10)} {"Stock".PadRight(10)}");
+    Console.WriteLine(new string('-', 46));
+    foreach (var prod in listaProductos)
+    {
+        Console.WriteLine(@$"{prod.Nombre.PadRight(25)} {"$" + prod.Precio.ToString().PadRight(10)} {prod.Stock.ToString().PadRight(10)}");
+    }
+    Console.WriteLine();
+
     Console.Write("Nombre del producto: ");
     string nombreProducto = Console.ReadLine();
-    Console.Write("Cantidad a comprar: ");
-    Int32.TryParse(Console.ReadLine(), out int cantidad);
 
     var producto = listaProductos.FirstOrDefault(p => p.Nombre == nombreProducto);
 
     if (producto == null)
     {
         Console.WriteLine("Error: el producto no existe.");
+        return;
     }
-    else if (producto.Stock < cantidad)
+
+    Console.WriteLine(producto.Descripcion);
+
+    Console.Write("Cantidad a comprar: ");
+    Int32.TryParse(Console.ReadLine(), out int cantidad);
+
+    if (producto.Stock < cantidad)
     {
         Console.WriteLine("Error: no hay suficiente stock.");
     }
     else
     {
         producto.Stock -= cantidad;
-        Console.WriteLine("Compra realizada con éxito.");
+        Console.WriteLine($"Compra realizada con éxito. Su total fue de ${producto.Precio * cantidad}");
     }
 }
