@@ -1,13 +1,50 @@
 ﻿using Dominio;
 
+const string usuariosPath = "../../../../usuarios.txt";
 List<Producto> listaProductos = new List<Producto>();
+string opcion = "";
+bool usuarioAutenticado = false;
 
-while (true)
+while (opcion != "0" && !usuarioAutenticado)
 {
-    string opcion;
-    Console.WriteLine("1- Registrar producto");
-    Console.WriteLine("2- Comprar producto");
+    Console.WriteLine(" -----------Login----------");
+    Console.WriteLine("|  1- Registrar usuario   |");
+    Console.WriteLine("|  2- Ingresar            |");
+    Console.WriteLine("|                         |");
+    Console.WriteLine("|  0- Salir               |");
+    Console.WriteLine(" -------------------------");
     opcion = Console.ReadLine();
+
+    switch (opcion)
+    {
+        case "1":
+            RegistrarUsuario();
+            break;
+
+        case "2":
+            break;
+
+        case "0":
+            Console.WriteLine("¡Gracias por utilizar el sistema EZKiosco!");
+            break;
+
+        default:
+            Console.WriteLine("Seleccione una opcion valida");
+            Console.WriteLine();
+            break;
+    }
+}
+
+while (opcion != "0")
+{
+    Console.WriteLine(" -----------Menú----------");
+    Console.WriteLine("|  1- Registrar producto  |");
+    Console.WriteLine("|  2- Comprar producto    |");
+    Console.WriteLine("|                         |");
+    Console.WriteLine("|  0- Salir               |");
+    Console.WriteLine(" -------------------------");
+    opcion = Console.ReadLine();
+    Console.WriteLine();
 
     switch (opcion)
     {
@@ -16,13 +53,69 @@ while (true)
             break;
 
         case "2":
-            ComprarProducto()
+            ComprarProducto();
+            break;
 
+        case "0":
+            Console.WriteLine("¡Gracias por utilizar el sistema EZKiosco!");
             break;
 
         default:
+            Console.WriteLine("Seleccione una opcion valida");
+            Console.WriteLine();
             break;
     }
+}
+
+void RegistrarUsuario()
+{
+    Dictionary<string, string> credenciales = CargarUsuarios();
+
+    Console.Write("Nombre de usuario: ");
+    string usuario = Console.ReadLine();
+
+    if (credenciales.ContainsKey(usuario))
+    {
+        Console.WriteLine("Error: Usuario ya registrado");
+        Console.WriteLine();
+    }
+    else
+    {
+        Console.Write("Contraseña: ");
+        string contrasenia = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(contrasenia))
+        {
+            Console.WriteLine("Error: debe ingresar una contraseña");
+        }
+        else
+        {
+            using (StreamWriter sw = File.AppendText(usuariosPath))
+            {
+                sw.WriteLine($"{usuario},{contrasenia}");
+            }
+            Console.WriteLine("¡Usuario registrado exitosamente!");
+            Console.WriteLine();
+        }
+    }
+}
+
+static Dictionary<string, string> CargarUsuarios()
+{
+    var credenciales = new Dictionary<string, string>();
+
+    foreach (var linea in File.ReadAllLines(usuariosPath))
+    {
+        var partes = linea.Split(',');
+        if (partes.Length == 2)
+        {
+            var usuario = partes[0].Trim();
+            var contrasenia = partes[1].Trim();
+            credenciales[usuario] = contrasenia;
+        }
+    }
+
+    return credenciales;
 }
 
 void RegistrarProducto()
@@ -54,12 +147,12 @@ void RegistrarProducto()
 
 void ComprarProducto()
 {
-   /* if (!usuarioLogueado) falta autentificacion
-    {
-        Console.WriteLine("Debe iniciar sesión para comprar productos.");
-        return;
-    }
-    */
+    /* if (!usuarioLogueado) falta autentificacion
+     {
+         Console.WriteLine("Debe iniciar sesión para comprar productos.");
+         return;
+     }
+     */
     Console.Write("Nombre del producto: ");
     string nombreProducto = Console.ReadLine();
     Console.Write("Cantidad a comprar: ");
