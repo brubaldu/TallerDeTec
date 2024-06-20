@@ -3,6 +3,7 @@
 const string usuariosPath = "../../../../usuarios.txt";
 const string productosInicialesPath = "../../../../productosIniciales.txt";
 List<Producto> listaProductos = new List<Producto>();
+int proximoIdProductos = 1;
 string opcion = "";
 bool usuarioAutenticado = false;
 
@@ -162,7 +163,7 @@ void CargarProductos()
                     Precio = double.Parse(partes[2].Trim()),
                     Stock = int.Parse(partes[3].Trim()),
                 };
-                listaProductos.Add(productoInicial);
+                AgregarProducto(productoInicial);
             }
         }
         catch (Exception e)
@@ -195,7 +196,7 @@ void RegistrarProducto()
     }
     else
     {
-        listaProductos.Add(nuevoProducto);
+        AgregarProducto(nuevoProducto);
         Console.WriteLine("Producto registrado correctamente.");
     }
 }
@@ -210,18 +211,18 @@ void ComprarProducto()
     }
 
     Console.WriteLine("---- Productos ----");
-    Console.WriteLine($"{"Nombre".PadRight(25)} {"Precio".PadRight(10)} {"Stock".PadRight(10)}");
+    Console.WriteLine($"{"Id".PadRight(5)}{"Nombre".PadRight(25)} {"Precio".PadRight(10)} {"Stock".PadRight(10)}");
     Console.WriteLine(new string('-', 46));
     foreach (var prod in listaProductos)
     {
-        Console.WriteLine(@$"{prod.Nombre.PadRight(25)} {"$" + prod.Precio.ToString().PadRight(10)} {prod.Stock.ToString().PadRight(10)}");
+        Console.WriteLine(@$"{prod.Id.ToString().PadRight(5)} {prod.Nombre.PadRight(25)} {"$" + prod.Precio.ToString().PadRight(10)} {prod.Stock.ToString().PadRight(10)}");
     }
     Console.WriteLine();
 
-    Console.Write("Nombre del producto: ");
-    string nombreProducto = Console.ReadLine();
+    Console.Write("Id del producto: ");
+    int idProducto =int.Parse(Console.ReadLine());
 
-    var producto = listaProductos.FirstOrDefault(p => p.Nombre == nombreProducto);
+    var producto = listaProductos.FirstOrDefault(p => p.Id == idProducto);
 
     if (producto == null)
     {
@@ -229,6 +230,7 @@ void ComprarProducto()
         return;
     }
 
+    Console.WriteLine(producto.Nombre);
     Console.WriteLine(producto.Descripcion);
 
     Console.Write("Cantidad a comprar: ");
@@ -243,4 +245,11 @@ void ComprarProducto()
         producto.Stock -= cantidad;
         Console.WriteLine($"Compra realizada con éxito. Su total fue de ${producto.Precio * cantidad}");
     }
+}
+
+void AgregarProducto(Producto producto)
+{
+    producto.Id = proximoIdProductos;
+    listaProductos.Add(producto);
+    proximoIdProductos++;
 }
