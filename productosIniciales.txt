@@ -1,0 +1,4 @@
+Pan,Alimento básico a base de harina,20,10
+Jamón 100g,Embutido a base de cerdo,30,20
+Queso 100g,Derivado lácteo,20,40
+Coca Cola 2L,Bebida gaseosa con azucar,140,20
