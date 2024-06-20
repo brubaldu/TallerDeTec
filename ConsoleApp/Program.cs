@@ -1,9 +1,12 @@
 ﻿using Dominio;
 
 const string usuariosPath = "../../../../usuarios.txt";
+const string productosInicialesPath = "../../../../productosIniciales.txt";
 List<Producto> listaProductos = new List<Producto>();
 string opcion = "";
 bool usuarioAutenticado = false;
+
+CargarProductos();
 
 while (opcion != "0" && !usuarioAutenticado)
 {
@@ -141,6 +144,33 @@ static Dictionary<string, string> CargarUsuarios()
     }
 
     return credenciales;
+}
+
+void CargarProductos()
+{
+    foreach (var linea in File.ReadAllLines(productosInicialesPath))
+    {
+        try
+        {
+            var partes = linea.Split(',');
+            if (partes.Length == 4)
+            {
+                Producto productoInicial = new Producto()
+                {
+                    Nombre = partes[0].Trim(),
+                    Descripcion = partes[1].Trim(),
+                    Precio = double.Parse(partes[2].Trim()),
+                    Stock = int.Parse(partes[3].Trim()),
+                };
+                listaProductos.Add(productoInicial);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Hay un error en el formato del archivo de Productos.");
+            throw;
+        }
+    }
 }
 
 void RegistrarProducto()
